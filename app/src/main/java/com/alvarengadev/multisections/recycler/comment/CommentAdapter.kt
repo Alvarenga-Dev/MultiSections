@@ -27,7 +27,7 @@ class CommentAdapter(
             false
         )
 
-        return ViewHolderGeneric(binding, commentsList, sendLikeInterface, true)
+        return ViewHolderGeneric(binding, commentsList, sendLikeInterface, false)
     }
 
     override fun onBindViewHolder(holder: ViewHolderGeneric, position: Int) {
@@ -44,8 +44,8 @@ class CommentAdapter(
 
     fun notifyUpdateItem(
         id: Int,
-        isLike: Boolean,
-        isReply: Boolean
+        isReply: Boolean,
+        isLike: Boolean
     ) {
         if (isReply) {
             replyAdapter?.notifyUpdateItem(id, isLike)

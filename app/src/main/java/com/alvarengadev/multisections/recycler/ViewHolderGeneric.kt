@@ -20,11 +20,11 @@ open class ViewHolderGeneric(
     binding.root
 ){
     init {
-        setIsRecyclable(false)
+        setIsRecyclable(true)
 
         binding.ibLike.apply {
             setOnClickListener {
-                val positionRcy = bindingAdapterPosition
+                val positionRcy = absoluteAdapterPosition
                 if (positionRcy != RecyclerView.NO_POSITION) {
                     val commentOrReply = commentsOrRepliesList[positionRcy]
 
@@ -46,6 +46,7 @@ open class ViewHolderGeneric(
             tvComment.text(userComment)
             ivProfile.setImageResource(resPhotoProfile)
 
+            rcyReply.hide()
             if (comment.getRepliesList()?.isNotEmpty() == true) {
                 btnReplies.visible()
                 btnReplies.setOnClickListener {
@@ -56,6 +57,13 @@ open class ViewHolderGeneric(
                     }
                 }
             }
+
+            ibLike.setImageResource(
+                if (comment.isLike)
+                    R.drawable.ic_ios_heart
+                else
+                    R.drawable.ic_ios_heart_empty
+            )
         }
     }
 
