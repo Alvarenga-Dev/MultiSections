@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initList() = binding.apply {
-        val commentAdapter = CommentAdapter(setData())
+        val commentAdapter = CommentAdapter()
+        commentAdapter.setDatasource(setData())
         commentAdapter.setSendLikeInterface(object : SendLikeInterface {
             override fun sendLike(isLike: Boolean, isReply: Boolean, id: Int) {
                 val sendLike = mainViewModel.sendLikeOrOutLike(isLike)

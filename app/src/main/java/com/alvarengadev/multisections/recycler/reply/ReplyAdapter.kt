@@ -1,5 +1,6 @@
 package com.alvarengadev.multisections.recycler.reply
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,11 +9,16 @@ import com.alvarengadev.multisections.domain.Comment
 import com.alvarengadev.multisections.recycler.ViewHolderGeneric
 import com.alvarengadev.multisections.recycler.`interface`.SendLikeInterface
 
-class ReplyAdapter(
-    private val repliesList: ArrayList<Comment>
-) : RecyclerView.Adapter<ViewHolderGeneric>() {
+class ReplyAdapter : RecyclerView.Adapter<ViewHolderGeneric>() {
 
     private var sendLikeInterface: SendLikeInterface? = null
+    private var repliesList = arrayListOf<Comment>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setDatasource(repliesList: ArrayList<Comment>) {
+        this.repliesList = repliesList
+        notifyDataSetChanged()
+    }
 
     fun setSendLikeInterface(sendLikeInterface: SendLikeInterface) {
         this.sendLikeInterface = sendLikeInterface
@@ -37,8 +43,10 @@ class ReplyAdapter(
         id: Int,
         isLike: Boolean
     ) {
-        val reply = repliesList.first { reply -> reply.id == id }
-        reply.isLike = isLike
-        notifyItemChanged(repliesList.indexOf(reply))
+        val reply = repliesList.firstOrNull { reply -> reply.id == id }
+        if (reply != null) {
+            reply.isLike = isLike
+            notifyItemChanged(repliesList.indexOf(reply))
+        }
     }
 }
