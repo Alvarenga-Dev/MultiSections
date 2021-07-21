@@ -27,7 +27,7 @@ class CommentAdapter(
             false
         )
 
-        return ViewHolderGeneric(binding, commentsList, sendLikeInterface, true)
+        return ViewHolderGeneric(binding, commentsList, sendLikeInterface, false)
     }
 
     override fun onBindViewHolder(holder: ViewHolderGeneric, position: Int) {
