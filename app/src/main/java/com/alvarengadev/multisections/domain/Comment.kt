@@ -1,10 +1,11 @@
 package com.alvarengadev.multisections.domain
 
 data class Comment(
+    val id: Int,
     val userName: String,
     val userComment: String,
     val resPhotoProfile: Int,
-    val isLike: Boolean,
+    var isLike: Boolean,
     private var repliesList: ArrayList<Comment>? = null
 ) {
     fun setRepliesList(repliesList: ArrayList<Comment>) {
