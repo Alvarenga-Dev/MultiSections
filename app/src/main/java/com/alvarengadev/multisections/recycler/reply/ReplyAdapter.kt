@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alvarengadev.multisections.databinding.ItemBinding
 import com.alvarengadev.multisections.domain.Comment
 import com.alvarengadev.multisections.recycler.ViewHolderGeneric
-import com.alvarengadev.multisections.recycler.`interface`.SendLikeInterface
+import com.alvarengadev.multisections.recycler.`interface`.SettingsAdapter
 
 class ReplyAdapter : RecyclerView.Adapter<ViewHolderGeneric>() {
 
-    private var sendLikeInterface: SendLikeInterface? = null
+    private var settingsAdapter: SettingsAdapter? = null
     private var repliesList = arrayListOf<Comment>()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -20,8 +20,8 @@ class ReplyAdapter : RecyclerView.Adapter<ViewHolderGeneric>() {
         notifyDataSetChanged()
     }
 
-    fun setSendLikeInterface(sendLikeInterface: SendLikeInterface) {
-        this.sendLikeInterface = sendLikeInterface
+    fun setSendLikeInterface(settingsAdapter: SettingsAdapter) {
+        this.settingsAdapter = settingsAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderGeneric {
@@ -30,7 +30,7 @@ class ReplyAdapter : RecyclerView.Adapter<ViewHolderGeneric>() {
             parent,
             false
         )
-        return ViewHolderGeneric(binding, repliesList, sendLikeInterface, true)
+        return ViewHolderGeneric(binding, repliesList, settingsAdapter, true)
     }
 
     override fun onBindViewHolder(holder: ViewHolderGeneric, position: Int) {
@@ -40,7 +40,7 @@ class ReplyAdapter : RecyclerView.Adapter<ViewHolderGeneric>() {
     override fun getItemCount(): Int = repliesList.size
 
     fun notifyUpdateItem(
-        id: Int,
+        id: String,
         isLike: Boolean
     ) {
         val reply = repliesList.firstOrNull { reply -> reply.id == id }

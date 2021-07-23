@@ -1,7 +1,8 @@
 package com.alvarengadev.multisections.domain
 
 data class Comment(
-    val id: Int,
+    val id: String,
+    val parentId: String?,
     val userName: String,
     val userComment: String,
     val resPhotoProfile: Int,

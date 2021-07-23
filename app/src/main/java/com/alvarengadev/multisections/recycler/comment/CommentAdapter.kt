@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alvarengadev.multisections.databinding.ItemBinding
 import com.alvarengadev.multisections.domain.Comment
 import com.alvarengadev.multisections.recycler.ViewHolderGeneric
-import com.alvarengadev.multisections.recycler.`interface`.SendLikeInterface
+import com.alvarengadev.multisections.recycler.`interface`.SettingsAdapter
 import com.alvarengadev.multisections.recycler.reply.ReplyAdapter
 
 class CommentAdapter : RecyclerView.Adapter<ViewHolderGeneric>() {
 
-    private lateinit var sendLikeInterface: SendLikeInterface
+    private lateinit var settingsAdapter: SettingsAdapter
     private var replyAdapter: ReplyAdapter? = null
     private var commentsList = arrayListOf<Comment>()
 
@@ -22,8 +22,8 @@ class CommentAdapter : RecyclerView.Adapter<ViewHolderGeneric>() {
         notifyDataSetChanged()
     }
 
-    fun setSendLikeInterface(sendLikeInterface: SendLikeInterface) {
-        this.sendLikeInterface = sendLikeInterface
+    fun setSendLikeInterface(settingsAdapter: SettingsAdapter) {
+        this.settingsAdapter = settingsAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderGeneric {
@@ -33,26 +33,20 @@ class CommentAdapter : RecyclerView.Adapter<ViewHolderGeneric>() {
             false
         )
 
-        return ViewHolderGeneric(binding, commentsList, sendLikeInterface, false)
+        return ViewHolderGeneric(binding, commentsList, settingsAdapter, false)
     }
 
     override fun onBindViewHolder(holder: ViewHolderGeneric, position: Int) {
         holder.bind(commentsList[position])
-
-        val replies = commentsList[position].getRepliesList()
-
         replyAdapter = ReplyAdapter()
         replyAdapter?.let { replyAdapter ->
-            if (replies != null) {
-                replyAdapter.setDatasource(replies)
-            }
-            replyAdapter.setSendLikeInterface(sendLikeInterface)
+            replyAdapter.setSendLikeInterface(settingsAdapter)
             holder.setAdapter(replyAdapter)
         }
     }
 
     fun notifyUpdateItem(
-        id: Int,
+        id: String,
         isReply: Boolean,
         isLike: Boolean
     ) {
@@ -63,6 +57,11 @@ class CommentAdapter : RecyclerView.Adapter<ViewHolderGeneric>() {
             comment.isLike = isLike
             notifyItemChanged(commentsList.indexOf(comment))
         }
+    }
+
+    fun notifyAddListReplies(id: String) {
+        val comment = commentsList.first { comment -> comment.id == id }
+        notifyItemChanged(commentsList.indexOf(comment))
     }
 
     override fun getItemCount(): Int = commentsList.size
